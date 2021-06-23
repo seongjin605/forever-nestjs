@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { UserController } from './user/UserController';
 import { UserService } from './user/UserService';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { LoggerProxy } from './log/LoggerProxy';
 
 @Module({
   imports: [
@@ -15,10 +16,14 @@ import { ConfigModule } from '@nestjs/config';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_SCHEMA,
       entities: [],
-      synchronize: true
-    })
+      synchronize: true,
+    }),
   ],
   controllers: [UserController],
-  providers: [UserService]
+  providers: [UserService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerProxy).forRoutes(UserController);
+  }
+}
