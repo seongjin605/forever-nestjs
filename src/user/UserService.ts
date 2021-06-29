@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { UserDto } from './UserDto';
+import { ReadUserDto } from './ReadUserDto';
 
 @Injectable()
 export class UserService {
-  getUser(): string {
-    return 'Micheal';
+  getUser(): ReadUserDto {
+    return new ReadUserDto('jin.park', 23, 'male');
   }
 }
