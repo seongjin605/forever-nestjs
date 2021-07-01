@@ -1,10 +1,5 @@
-import {
-  Body,
-  Controller,
-  HttpException,
-  HttpStatus,
-  Post,
-} from '@nestjs/common';
+import { UserNotFoundException } from './../exceptions/UserNotFoundException';
+import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { UserService } from './UserService';
 import { ReadUserDto } from './ReadUserDto';
 
@@ -17,13 +12,7 @@ export class UserController {
     const user: ReadUserDto = this.userService.getUser();
     console.log('user:', user);
     if (!user) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error: 'User not exists.',
-        },
-        HttpStatus.FORBIDDEN,
-      );
+      throw new UserNotFoundException();
     }
     return user;
   }
