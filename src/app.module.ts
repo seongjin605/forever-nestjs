@@ -16,11 +16,11 @@ import { LoggerProxy } from './log/LoggerProxy';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_SCHEMA,
       entities: [],
-      synchronize: true,
-    }),
+      synchronize: true
+    })
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
